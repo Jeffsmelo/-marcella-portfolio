@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Marcella Araújo — Design & Comunicação Visual</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#131319;
+    --panel:#1B1C24;
+    --ink:#F4F3EF;
+    --ink-soft:#9C9DAA;
+    --line:#2C2D37;
+    --c-edu:#E3A94A;
+    --c-imob:#C96B3E;
+    --c-saude:#5CAE8F;
+    --c-dig:#7C7FEE;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'IBM Plex Sans',sans-serif;
+    font-size:16px;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  .wrap{max-width:960px;margin:0 auto;padding:0 28px;}
+  h1,h2,h3{font-family:'Fraunces',serif;font-weight:500;letter-spacing:-0.01em;}
+  a{color:inherit;}
+
+  ::selection{background:var(--c-dig);color:#0E0E12;}
+
+  /* grain overlay */
+  #grain{
+    position:fixed;inset:0;z-index:40;pointer-events:none;
+    opacity:.05;mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  }
+
+  /* scroll progress */
+  #progress{
+    position:fixed;top:0;left:0;height:3px;
+    background:linear-gradient(90deg,var(--c-edu),var(--c-imob),var(--c-saude),var(--c-dig));
+    width:0%;z-index:100;transition:width .08s linear;
+  }
+
+  /* focus visibility */
+  a:focus-visible, button:focus-visible{outline:2px solid var(--c-dig);outline-offset:3px;}
+
+  /* NAV */
+  nav{
+    position:sticky;top:0;z-index:50;
+    backdrop-filter:blur(10px);
+    background:rgba(19,19,25,0.72);
+    border-bottom:1px solid var(--line);
+  }
+  nav .wrap{display:flex;justify-content:space-between;align-items:center;height:64px;}
+  .mono{
+    width:36px;height:36px;border-radius:50%;
+    background:conic-gradient(from 180deg,var(--c-edu),var(--c-imob),var(--c-saude),var(--c-dig),var(--c-edu));
+    display:flex;align-items:center;justify-content:center;
+    font-family:'Fraunces',serif;font-weight:600;font-size:14px;color:#131319;
+  }
+  .mono span{background:var(--bg);width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--ink);}
+  nav .links{display:flex;gap:26px;font-size:14.5px;color:var(--ink-soft);}
+  nav .links button{
+    font:inherit;background:none;border:none;color:inherit;cursor:pointer;padding:0;
+    transition:color .2s;
+  }
+  nav .links button:hover{color:var(--ink);}
+  @media(max-width:480px){
+    nav .wrap{height:56px;}
+    nav .links{gap:14px;font-size:12.5px;}
+  }
+
+  /* HERO */
+  header.hero{
+    position:relative;
+    padding:120px 0 90px;
+    overflow:hidden;
+  }
+  @media(max-width:600px){
+    header.hero{padding:70px 0 56px;}
+    .hero p.role{font-size:17px;}
+    .hero .contacts{gap:10px;}
+    .pill{padding:9px 14px;font-size:13.5px;}
+  }
+  .spotlight{
+    position:absolute;inset:0;
+    pointer-events:none;
+    background:radial-gradient(600px circle at var(--mx,50%) var(--my,10%), rgba(124,127,238,0.14), transparent 60%);
+    transition:background .1s ease;
+  }
+  .orb{
+    position:absolute;border-radius:50%;filter:blur(70px);opacity:.35;pointer-events:none;
+  }
+  .orb-1{width:340px;height:340px;background:var(--c-edu);top:-120px;left:-80px;}
+  .orb-2{width:300px;height:300px;background:var(--c-dig);bottom:-140px;right:-60px;}
+  .orb-3{width:220px;height:220px;background:var(--c-saude);top:40%;left:60%;}
+  @media(prefers-reduced-motion:no-preference){
+    .orb-1{animation:drift1 16s ease-in-out infinite;}
+    .orb-2{animation:drift2 20s ease-in-out infinite;}
+    .orb-3{animation:drift3 14s ease-in-out infinite;}
+  }
+  @keyframes drift1{0%,100%{transform:translate(0,0);}50%{transform:translate(40px,30px);}}
+  @keyframes drift2{0%,100%{transform:translate(0,0);}50%{transform:translate(-30px,-40px);}}
+  @keyframes drift3{0%,100%{transform:translate(0,0);}50%{transform:translate(-25px,25px);}}
+  @media(max-width:600px){.orb{display:none;}}
+  .hero .kicker{color:var(--ink-soft);font-size:15px;margin-bottom:18px;position:relative;}
+  .hero h1{
+    font-size:clamp(46px,8vw,92px);
+    line-height:0.98;
+    max-width:12ch;
+    position:relative;
+    background:linear-gradient(100deg,var(--c-edu) 0%,var(--c-imob) 32%,var(--c-saude) 64%,var(--c-dig) 100%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+    background-size:180% 100%;
+  }
+  @media(prefers-reduced-motion:no-preference){
+    .hero .kicker, .hero p.role, .hero .contacts{
+      opacity:0;transform:translateY(14px);
+      animation:heroIn .7s ease forwards;
+    }
+    .hero .kicker{animation-delay:.05s;}
+    .hero p.role{animation-delay:.4s;}
+    .hero .contacts{animation-delay:.55s;}
+    .hero h1{
+      opacity:0;transform:translateY(14px);
+      animation:
+        heroIn .7s ease .15s forwards,
+        gradientShift 9s ease-in-out 1s infinite;
+    }
+  }
+  @keyframes heroIn{to{opacity:1;transform:translateY(0);}}
+  @keyframes gradientShift{
+    0%,100%{background-position:0% 50%;}
+    50%{background-position:100% 50%;}
+  }
+  .hero p.role{
+    margin-top:24px;font-size:19px;color:var(--ink-soft);max-width:40ch;position:relative;
+  }
+  .hero .contacts{
+    margin-top:38px;display:flex;gap:14px;flex-wrap:wrap;position:relative;
+  }
+  .pill{
+    display:inline-flex;align-items:center;gap:8px;
+    border:1px solid var(--line);
+    padding:10px 18px;border-radius:30px;
+    font-size:14.5px;text-decoration:none;color:var(--ink);
+    transition:border-color .2s, background .2s, transform .2s;
+  }
+  .pill:hover{border-color:var(--c-dig);background:rgba(124,127,238,0.08);transform:translateY(-2px);}
+
+  /* CLIENT MARQUEE */
+  .marquee-band{border-top:1px solid var(--line);border-bottom:1px solid var(--line);overflow:hidden;}
+  .marquee{display:flex;width:max-content;padding:22px 0;gap:64px;}
+  @media(prefers-reduced-motion:no-preference){
+    .marquee{animation:scroll 26s linear infinite;}
+  }
+  .marquee-band:hover .marquee{animation-play-state:paused;}
+  @keyframes scroll{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+  .marquee span{
+    font-family:'Fraunces',serif;font-size:20px;color:var(--ink-soft);white-space:nowrap;
+  }
+  @media(max-width:600px){
+    .marquee{gap:36px;padding:16px 0;}
+    .marquee span{font-size:15px;}
+  }
+
+  /* STATS */
+  section.about{padding:76px 0;border-bottom:1px solid var(--line);}
+  @media(max-width:600px){
+    section.about{padding:48px 0;}
+    .stats{gap:18px;}
+    .stat b{font-size:30px;}
+    .section-head{padding:48px 0 18px;}
+    footer{padding:64px 0 32px;}
+    .cta-btn{width:100%;justify-content:center;padding:15px 24px;}
+  }
+  .about-grid{display:grid;grid-template-columns:1.3fr 1fr;gap:50px;align-items:start;}
+  @media(max-width:680px){.about-grid{grid-template-columns:1fr;}}
+  section.about p{font-size:17.5px;color:var(--ink-soft);max-width:56ch;}
+  section.about p + p{margin-top:14px;}
+  .stats{display:grid;grid-template-columns:1fr 1fr;gap:26px;}
+  .stat b{
+    display:block;font-family:'Fraunces',serif;font-size:38px;font-weight:600;
+  }
+  .stat span{font-size:13.5px;color:var(--ink-soft);}
+
+  /* SECTION HEAD */
+  .section-head{padding:72px 0 24px;}
+  .section-head h2{font-size:clamp(30px,4.5vw,42px);display:inline-block;position:relative;}
+  .section-head h2::after{
+    content:"";position:absolute;left:0;bottom:-8px;height:3px;width:56px;
+    background:linear-gradient(90deg,var(--c-edu),var(--c-imob),var(--c-saude),var(--c-dig));
+    border-radius:2px;
+  }
+  .section-head p{color:var(--ink-soft);margin-top:8px;font-size:15px;}
+
+  /* PROJECT GRID */
+  .grid{
+    display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-bottom:90px;
+  }
+  @media(max-width:640px){.grid{grid-template-columns:1fr;}}
+
+  .card{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:28px 26px;
+    cursor:pointer;
+    position:relative;
+    transform-style:preserve-3d;
+    transition:transform .25s ease, border-color .25s ease, box-shadow .25s ease;
+    opacity:0;transform:translateY(18px);
+  }
+  .card.visible{opacity:1;transform:translateY(0);transition:opacity .5s ease, transform .5s ease;}
+  .card:hover{border-color:var(--card-color,var(--c-dig));box-shadow:0 18px 40px -20px var(--card-color,var(--c-dig));}
+  .card-photo{
+    aspect-ratio:4/3;border-radius:9px;margin-bottom:18px;
+    background:linear-gradient(155deg, color-mix(in srgb, var(--card-color) 22%, var(--panel)), var(--panel));
+    border:1px dashed color-mix(in srgb, var(--card-color) 45%, var(--line));
+    display:flex;align-items:center;justify-content:center;
+    overflow:hidden;position:relative;
+  }
+  .card-photo img{width:100%;height:100%;object-fit:cover;display:block;}
+  .card-photo svg{width:58%;height:58%;opacity:.85;color:var(--card-color);}
+  .card .swatch{width:30px;height:30px;border-radius:8px;margin-bottom:20px;background:var(--card-color);}
+  .card .plus{
+    position:absolute;top:26px;right:24px;
+    font-family:'Fraunces',serif;font-size:22px;color:var(--ink-soft);
+    transition:transform .25s ease,color .25s ease;
+  }
+  .card.open .plus{transform:rotate(45deg);color:var(--card-color);}
+  .card h3{font-size:20.5px;margin-bottom:8px;}
+  .card .meta{font-size:13px;color:var(--ink-soft);}
+  .card .meta span:not(:last-child)::after{content:" · ";}
+  .card .details{max-height:0;overflow:hidden;transition:max-height .35s ease;}
+  .card.open .details{max-height:400px;margin-top:18px;}
+  .details dl{font-size:14.5px;color:var(--ink-soft);}
+  .details dt{color:var(--ink);font-weight:500;margin-top:12px;}
+  .details dt:first-child{margin-top:0;}
+  .details dd{margin-top:2px;}
+
+  /* SKILLS */
+  section.skills{padding:0 0 90px;}
+  .skills-list{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px;}
+  .skills-list span{
+    border:1px solid var(--line);padding:9px 16px;font-size:14px;border-radius:20px;
+    color:var(--ink-soft);transition:transform .2s ease, color .2s ease, border-color .2s ease;
+    display:inline-block;
+  }
+  .skills-list span:hover{transform:translateY(-3px);color:var(--ink);border-color:var(--c-dig);}
+
+  /* FOOTER */
+  footer{
+    position:relative;
+    background:var(--panel);
+    padding:90px 0 44px;
+    overflow:hidden;
+    border-top:1px solid var(--line);
+  }
+  footer .glow{
+    position:absolute;inset:0;pointer-events:none;
+    background:radial-gradient(500px circle at 50% 0%, rgba(124,127,238,0.16), transparent 65%);
+  }
+  footer h2{font-size:clamp(30px,6vw,52px);max-width:15ch;position:relative;}
+  .cta-btn{
+    position:relative;display:inline-flex;align-items:center;gap:10px;
+    margin-top:34px;padding:16px 30px;border-radius:40px;
+    background:linear-gradient(100deg,var(--c-edu),var(--c-imob),var(--c-saude),var(--c-dig));
+    color:#131319;font-weight:600;text-decoration:none;font-size:15.5px;
+    transition:transform .18s ease;
+  }
+  footer .contacts{margin-top:30px;display:flex;gap:26px;flex-wrap:wrap;font-size:14.5px;position:relative;}
+  footer .contacts a{text-decoration:none;color:var(--ink-soft);border-bottom:1px solid transparent;transition:color .2s, border-color .2s;}
+  footer .contacts a:hover{color:var(--ink);border-color:var(--ink-soft);}
+  footer .fine{margin-top:60px;font-size:12.5px;color:#67697A;position:relative;}
+
+  /* custom cursor */
+  #cursor-dot{
+    position:fixed;width:10px;height:10px;border-radius:50%;
+    background:var(--c-dig);pointer-events:none;z-index:999;
+    transform:translate(-50%,-50%);
+    transition:width .18s ease, height .18s ease, background .18s ease;
+    mix-blend-mode:difference;
+    display:none;
+  }
+  @media(pointer:fine){#cursor-dot{display:block;}}
+</style>
+</head>
+<body>
+
+<div id="grain"></div>
+<div id="progress"></div>
+
+<div id="cursor-dot"></div>
+
+<nav>
+  <div class="wrap">
+    <div class="mono"><span>MA</span></div>
+    <div class="links">
+      <button type="button" class="nav-link" data-target="trabalhos">Trabalhos</button>
+      <button type="button" class="nav-link" data-target="sobre">Sobre</button>
+      <button type="button" class="nav-link" data-target="contato">Contato</button>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="spotlight" id="spotlight"></div>
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+  <div class="wrap">
+    <div class="kicker">Portfólio</div>
+    <h1>Marcella Araújo</h1>
+    <p class="role">Design gráfico e comunicação visual para educação, imóveis, saúde e marketing digital.</p>
+    <div class="contacts">
+      <a class="pill" href="https://wa.me/5592991064779" target="_blank">WhatsApp</a>
+      <a class="pill" href="https://www.linkedin.com/in/marcella-medeiros-araújo-841320177" target="_blank">LinkedIn</a>
+      <a class="pill" href="mailto:marcellaaraujo.design@gmail.com">marcellaaraujo.design@gmail.com</a>
+    </div>
+  </div>
+</header>
+
+<div class="marquee-band">
+  <div class="marquee" id="marquee"></div>
+</div>
+
+<section class="about wrap" id="sobre">
+  <div class="about-grid">
+    <div>
+      <p>Desde 2019, Marcella transforma conteúdos complexos em materiais visuais claros e atrativos — de apostilas educacionais a campanhas imobiliárias, peças de saúde e conteúdo digital.</p>
+      <p>Trabalha com Photoshop, Illustrator, InDesign e Canva, sempre buscando organizar a informação antes de decorá-la.</p>
+    </div>
+    <div class="stats">
+      <div class="stat"><b data-count="2019" data-format="year">0</b><span>Início de carreira</span></div>
+      <div class="stat"><b data-count="4">0</b><span>Setores atendidos</span></div>
+      <div class="stat"><b data-count="8">0</b><span>Frentes de projeto</span></div>
+      <div class="stat"><b data-count="4">0</b><span>Ferramentas principais</span></div>
+    </div>
+  </div>
+</section>
+
+<div class="wrap" id="trabalhos">
+  <div class="section-head">
+    <h2>Trabalhos</h2>
+    <p>Clique em um card para ver peças e objetivo.</p>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="grid" id="project-grid"></div>
+</div>
+
+<section class="skills wrap">
+  <h2 style="font-size:26px;">Ferramentas</h2>
+  <div class="skills-list">
+    <span>Photoshop</span>
+    <span>Illustrator</span>
+    <span>InDesign</span>
+    <span>Canva</span>
+  </div>
+</section>
+
+<footer id="contato">
+  <div class="glow"></div>
+  <div class="wrap">
+    <h2>Vamos conversar sobre o próximo projeto.</h2>
+    <a class="cta-btn" id="magnet" href="https://wa.me/5592991064779" target="_blank">Fale comigo →</a>
+    <div class="contacts">
+      <a href="https://wa.me/5592991064779" target="_blank">+55 92 99106-4779</a>
+      <a href="https://www.linkedin.com/in/marcella-medeiros-araújo-841320177" target="_blank">LinkedIn</a>
+      <a href="mailto:marcellaaraujo.design@gmail.com">marcellaaraujo.design@gmail.com</a>
+    </div>
+    <div class="fine">Marcella Araújo — Portfólio</div>
+  </div>
+</footer>
+
+<script>
+const projects = [
+  { title:"Materiais educacionais", client:"Super Ensino", period:"2019–atual", color:"var(--c-edu)", type:"edu",
+    pecas:"Apresentações, materiais educacionais, PDFs, materiais institucionais e peças digitais.",
+    objetivo:"Transformar conteúdos educacionais em materiais visuais claros, organizados e atrativos, facilitando a compreensão das informações." },
+  { title:"Apresentações institucionais", client:"Super Ensino", period:"2019–atual", color:"var(--c-edu)", type:"edu",
+    pecas:"Apresentações, documentos institucionais, PDFs e materiais de apoio.",
+    objetivo:"Organizar informações de maneira profissional e visualmente agradável, tornando os materiais mais fáceis de apresentar e consultar." },
+  { title:"Materiais para redes sociais", client:"Super Ensino, Impac.to, Sigma Health, Altbox", period:"2019–atual", color:"var(--c-dig)", type:"dig",
+    pecas:"Posts, artes para campanhas, conteúdos informativos, peças promocionais e adaptações de formato.",
+    objetivo:"Desenvolver peças visualmente atrativas e coerentes com a identidade de cada marca." },
+  { title:"Marketing imobiliário", client:"Impac.to Marketing Imobiliário", period:"1 ano e 5 meses", color:"var(--c-imob)", type:"imob",
+    pecas:"Artes para redes sociais, banners, materiais para sites, e-mail marketing e divulgação imobiliária.",
+    objetivo:"Desenvolver materiais de comunicação visual para o mercado imobiliário, adaptados a cada canal." },
+  { title:"Identidade visual imobiliária", client:"Impac.to Marketing Imobiliário", period:"1 ano e 5 meses", color:"var(--c-imob)", type:"imob",
+    pecas:"Identidade visual, materiais de divulgação, banners e peças digitais.",
+    objetivo:"Criar uma comunicação visual consistente e profissional, mantida entre os diferentes materiais." },
+  { title:"E-mail marketing", client:"Impac.to Marketing Imobiliário", period:"1 ano e 5 meses", color:"var(--c-imob)", type:"imob",
+    pecas:"E-mails promocionais e informativos.",
+    objetivo:"Criar comunicações visualmente organizadas e atrativas para campanhas de marketing." },
+  { title:"Marketing médico", client:"Sigma Health", period:"8 meses", color:"var(--c-saude)", type:"saude",
+    pecas:"Artes para redes sociais e materiais digitais.",
+    objetivo:"Desenvolver uma comunicação visual profissional e adequada ao segmento médico." },
+  { title:"Design para redes sociais", client:"Altbox", period:"5 meses", color:"var(--c-dig)", type:"dig",
+    pecas:"Posts para redes sociais, campanhas e adaptações de conteúdo.",
+    objetivo:"Criar peças atrativas e alinhadas às necessidades de comunicação de cada cliente da agência." }
+];
+
+const illustrations = {
+  edu: `<svg viewBox="0 0 120 90" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M20 34 L60 20 L100 34 L60 48 Z"/>
+    <path d="M34 40 V62 Q60 74 86 62 V40"/>
+    <path d="M100 34 V54"/>
+    <circle cx="100" cy="59" r="2.4" fill="currentColor" stroke="none"/>
+  </svg>`,
+  imob: `<svg viewBox="0 0 120 90" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M24 78 V42 L60 16 L96 42 V78 Z"/>
+    <path d="M24 78 H96"/>
+    <rect x="36" y="50" width="14" height="14"/>
+    <rect x="70" y="50" width="14" height="14"/>
+    <rect x="52" y="64" width="16" height="14"/>
+  </svg>`,
+  saude: `<svg viewBox="0 0 120 90" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="60" cy="45" r="30"/>
+    <path d="M30 45 H46 L52 32 L62 58 L68 45 H90"/>
+  </svg>`,
+  dig: `<svg viewBox="0 0 120 90" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M22 40 V54 L36 56 V38 Z"/>
+    <path d="M36 38 L74 24 V70 L36 56"/>
+    <path d="M44 58 L50 72"/>
+    <path d="M78 34 Q90 45 78 56" stroke-dasharray="3 5"/>
+    <path d="M86 26 Q104 45 86 64" stroke-dasharray="3 5"/>
+  </svg>`
+};
+
+const gridEl = document.getElementById('project-grid');
+
+document.querySelectorAll('.nav-link').forEach(link=>{
+  link.addEventListener('click', (e)=>{
+    e.preventDefault();
+    const target = document.getElementById(link.dataset.target);
+    if(target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+});
+gridEl.innerHTML = projects.map((p,i)=>`
+  <div class="card" data-i="${i}" style="--card-color:${p.color}">
+    <div class="card-photo" data-photo-slot="${i}">
+      ${p.image ? `<img src="${p.image}" alt="${p.title}">` : illustrations[p.type]}
+    </div>
+    <div class="plus">+</div>
+    <h3>${p.title}</h3>
+    <div class="meta"><span>${p.client}</span><span>${p.period}</span></div>
+    <div class="details">
+      <dl>
+        <dt>Peças</dt><dd>${p.pecas}</dd>
+        <dt>Objetivo</dt><dd>${p.objetivo}</dd>
+      </dl>
+    </div>
+  </div>
+`).join('');
+
+gridEl.addEventListener('click', (e)=>{
+  const card = e.target.closest('.card');
+  if(!card) return;
+  card.classList.toggle('open');
+});
+
+// scroll progress bar
+const progressEl = document.getElementById('progress');
+window.addEventListener('scroll', ()=>{
+  const h = document.documentElement;
+  const scrolled = (h.scrollTop) / (h.scrollHeight - h.clientHeight) * 100;
+  progressEl.style.width = scrolled + '%';
+});
+
+// animated counters
+const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const countEls = document.querySelectorAll('[data-count]');
+const countIO = new IntersectionObserver((entries)=>{
+  entries.forEach(entry=>{
+    if(!entry.isIntersecting) return;
+    const el = entry.target;
+    const target = parseInt(el.dataset.count, 10);
+    const isYear = el.dataset.format === 'year';
+    if(reduceMotion){ el.textContent = target; countIO.unobserve(el); return; }
+    const start = isYear ? target - 6 : 0;
+    const duration = 900;
+    const t0 = performance.now();
+    function tick(now){
+      const p = Math.min((now - t0) / duration, 1);
+      const eased = 1 - Math.pow(1 - p, 3);
+      const val = Math.round(start + (target - start) * eased);
+      el.textContent = val;
+      if(p < 1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+    countIO.unobserve(el);
+  });
+},{threshold:0.6});
+countEls.forEach(el=>countIO.observe(el));
+
+// draw-in effect for card illustrations
+function prepDraw(svg){
+  svg.querySelectorAll('path, circle, rect').forEach(shape=>{
+    let len;
+    try{ len = shape.getTotalLength ? shape.getTotalLength() : 60; }catch(e){ len = 60; }
+    if(!shape.getTotalLength){ return; }
+    shape.style.strokeDasharray = len;
+    shape.style.strokeDashoffset = len;
+    shape.style.transition = 'stroke-dashoffset 1s ease';
+  });
+}
+function playDraw(svg){
+  svg.querySelectorAll('path, circle, rect').forEach((shape,i)=>{
+    if(!shape.getTotalLength) return;
+    setTimeout(()=>{ shape.style.strokeDashoffset = 0; }, i*90);
+  });
+}
+const io = new IntersectionObserver((entries)=>{
+  entries.forEach((entry,idx)=>{
+    if(entry.isIntersecting){
+      setTimeout(()=>{
+        entry.target.classList.add('visible');
+        const svg = entry.target.querySelector('.card-photo svg');
+        if(svg && !reduceMotion) playDraw(svg);
+      }, idx*60);
+      io.unobserve(entry.target);
+    }
+  });
+},{threshold:0.15});
+document.querySelectorAll('.card').forEach(c=>{
+  io.observe(c);
+  const svg = c.querySelector('.card-photo svg');
+  if(svg && !reduceMotion) prepDraw(svg);
+});
+
+// client marquee
+const clients = ["Super Ensino","Impac.to Marketing Imobiliário","Sigma Health","Altbox"];
+const marqueeEl = document.getElementById('marquee');
+marqueeEl.innerHTML = [...clients, ...clients].map(c=>`<span>${c}</span>`).join('');
+
+// hero spotlight follows cursor (desktop only)
+const spotlight = document.getElementById('spotlight');
+if(window.matchMedia('(pointer: fine)').matches){
+  document.querySelector('header.hero').addEventListener('mousemove', (e)=>{
+    const rect = e.currentTarget.getBoundingClientRect();
+    spotlight.style.setProperty('--mx', (e.clientX-rect.left)+'px');
+    spotlight.style.setProperty('--my', (e.clientY-rect.top)+'px');
+  });
+
+  // custom cursor dot
+  const dot = document.getElementById('cursor-dot');
+  window.addEventListener('mousemove', (e)=>{
+    dot.style.left = e.clientX+'px';
+    dot.style.top = e.clientY+'px';
+  });
+  document.querySelectorAll('a, .card, .skills-list span').forEach(el=>{
+    el.addEventListener('mouseenter', ()=>{dot.style.width='22px';dot.style.height='22px';});
+    el.addEventListener('mouseleave', ()=>{dot.style.width='10px';dot.style.height='10px';});
+  });
+
+  // magnetic CTA
+  const magnet = document.getElementById('magnet');
+  magnet.addEventListener('mousemove', (e)=>{
+    const r = magnet.getBoundingClientRect();
+    const x = (e.clientX - r.left - r.width/2)*0.3;
+    const y = (e.clientY - r.top - r.height/2)*0.3;
+    magnet.style.transform = `translate(${x}px, ${y}px)`;
+  });
+  magnet.addEventListener('mouseleave', ()=>{magnet.style.transform='translate(0,0)';});
+}
+</script>
+
+</body>
+</html>
